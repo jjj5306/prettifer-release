@@ -1,135 +1,208 @@
+<div align="center">
+
 # Prettifer
 
-**선택한 커밋만 반영된 결과를 하나의 diff로 검토하는 Windows 데스크톱 도구**
+**Review only the commits you picked — as one combined diff.**
 
-브랜치에 여러 커밋이 쌓였을 때 검토할 커밋만 골라 최종 파일 상태와 통합 diff를 확인할 수 있습니다. 계산 중에도 원본 저장소의 브랜치, 작업 파일과 Git 설정을 유지합니다.
+[![Latest release](https://img.shields.io/github/v/release/jjj5306/prettifer-release?label=release&color=8f80fa)](https://github.com/jjj5306/prettifer-release/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/jjj5306/prettifer-release/total?color=5bb98c)](https://github.com/jjj5306/prettifer-release/releases)
+[![Platform](https://img.shields.io/badge/platform-Windows%20x64-0078d4)](https://github.com/jjj5306/prettifer-release/releases/latest)
+[![Issues](https://img.shields.io/github/issues/jjj5306/prettifer-release?color=f9bc45)](https://github.com/jjj5306/prettifer-release/issues)
 
-## 설치
+[English](README.md) · [한국어](README.ko.md)
 
-1. [Releases](../../releases)에서 최신 Windows ZIP을 내려받습니다.
-2. 원하는 위치에 압축을 풉니다.
-3. `prettifer.exe`를 실행합니다.
+[Download](#installation) · [Usage](#usage) · [How it works](#how-it-works) · [Troubleshooting](#troubleshooting) · [Report a bug](https://github.com/jjj5306/prettifer-release/issues/new/choose)
 
-설치 프로그램과 코드 서명은 아직 제공하지 않습니다. Windows SmartScreen 안내가 나타날 수 있습니다.
+</div>
 
-요구 사항:
+---
+
+## What it does
+
+When a branch has twenty commits and only three of them are yours to review,
+Prettifer builds the final file state and a single combined diff from just
+those three. Your repository is never touched.
+
+|  | Approach | Problem |
+|---|---|---|
+| ❌ | Review commit by commit | A file changed several times never shows its final shape |
+| ❌ | Review the whole branch diff | Changes from commits you don't care about are mixed in |
+| ✅ | **Prettifer** | Pick the commits, see only their combined result |
+
+![Prettifer reviewing a combined diff](docs/screenshot-tree-view.png)
+
+## Installation
+
+**Requirements**
 
 - Windows x64
-- Git `2.30+`가 `PATH`에서 실행 가능한 환경
+- Git `2.30+` available on `PATH`
 
 ```powershell
 git --version
 ```
 
-## 사용법
+**Steps**
 
-1. `Open Repository`로 검토할 로컬 Git 저장소를 엽니다.
-2. `Base branch`와 `Working branch`를 고르고 `Load Commit Range`를 실행합니다.
-3. `Commit History`에서 합성할 커밋의 체크 상자를 선택합니다. 카드 본문을 누르면 합성 선택을 유지한 채 해당 커밋을 살펴볼 수 있습니다.
-4. `Build Selected Result`를 실행합니다. 진행 중인 계산은 `Cancel`로 중단할 수 있습니다.
-5. `Changed Files`에서 파일을 고르고 기준 내용과 선택 결과를 검토합니다.
+1. Download the latest Windows ZIP from [Releases](https://github.com/jjj5306/prettifer-release/releases/latest).
+2. Extract it anywhere you like.
+3. Run `prettifer.exe`.
 
-Commit History는 가장 오래된 커밋부터 최신 커밋 순서로 표시합니다. Base에는 Working 브랜치가 갈라져 나온 기준 브랜치를 선택하세요.
+There is no installer and no code signing yet, so Windows SmartScreen may warn
+you on first launch. Verify the download with the `SHA256SUMS.txt` published
+next to the ZIP:
 
-## 주요 기능
+```powershell
+Get-FileHash .\prettifer-win32-x64-<version>.zip -Algorithm SHA256
+```
 
-| 기능 | 설명 |
+## Usage
+
+1. **Open Repository** — pick the local Git repository you want to review.
+2. **Choose the comparison range** — set `Base branch` and `Working branch`,
+   then run `Load Commit Range`.
+3. **Pick commits** — tick the commits to combine. Clicking a card body
+   inspects that commit without changing your selection.
+4. **Build Selected Result** — run the calculation. `Cancel` stops it.
+5. **Review** — choose a file in `Changed Files` and compare the base against
+   the selected result.
+
+Commit History runs oldest to newest, left to right.
+
+> [!IMPORTANT]
+> Set `Base` to the branch your working branch actually forked from. If your
+> branch came off `release/2026.6` but you pick `master` as the base, every
+> commit added to `release/2026.6` since the two branches diverged shows up
+> too. That is correct Git behaviour, just probably not the range you wanted.
+
+## Features
+
+| Feature | Description |
 |---|---|
-| 비연속 커밋 선택 | 서로 떨어진 커밋을 여러 개 선택합니다 |
-| 통합 결과 | 선택 커밋만 오래된 순서부터 적용한 최종 상태를 만듭니다 |
-| Tree View / List View | 폴더 계층 또는 전체 경로 목록으로 변경 파일을 봅니다 |
-| 폴더 접기 | Tree View의 폴더를 접거나 펼칩니다 |
-| Side-by-side Diff | 기준 파일과 선택 결과를 좌우로 비교합니다 |
-| Added File | 새 파일은 기준 화면 없이 전체 내용을 추가 상태로 표시합니다 |
-| 폭 조절 | 패널과 diff 내부 구분자를 마우스 또는 방향키·Home·End로 조절합니다 |
-| Binary file | 바이너리 파일을 텍스트로 해석하지 않고 변경 상태를 안내합니다 |
-| 접근성 | 주요 흐름의 키보드 조작, 포커스 표시, 200% 확대와 고대비 모드를 지원합니다 |
+| Non-contiguous selection | Pick several commits that are not next to each other |
+| Combined result | Applies only the selected commits, oldest first |
+| Tree / List view | Browse changed files as a folder tree or as full paths |
+| Folder collapsing | Collapse and expand folders; single-child paths are joined into one row |
+| Side-by-side diff | Base on the left, selected result on the right |
+| Added files | New files show their whole content as added, with no empty base pane |
+| Resizable panes | Drag the pane and in-diff dividers, or use arrow keys, Home and End |
+| Binary files | Detected and reported instead of being rendered as text |
+| Accessibility | Keyboard operation, visible focus, 200% zoom and high contrast |
 
-## 저장소 보호와 계산 방식
+<details>
+<summary>List view screenshot</summary>
 
-Prettifer는 요청마다 원본 저장소와 분리된 임시 로컬 clone을 만듭니다.
+![Prettifer list view](docs/screenshot-list-view.png)
+
+</details>
+
+## How it works
+
+Every request runs in a temporary local clone that is isolated from your
+repository.
 
 ```text
-1. Base와 Working의 공통 조상을 비교 기준으로 결정
-2. checkout하지 않은 격리된 임시 로컬 clone 생성
-3. 파일 내용에 필요한 안전한 Git 설정과 attributes 적용
-4. 선택 커밋의 변경 경로를 준비
-5. 저장소 전용 merge/filter 설정이 다른 파일을 요구하면 임시 clone 전체를 준비
-6. 선택 커밋을 오래된 순서부터 적용
-7. 기준 Git 객체와 최종 Git index에서 내용과 diff 수집
-8. 성공·실패·취소 뒤 해당 요청의 임시 디렉터리 정리
+1. Resolve the comparison base from the merge-base of Base and Working
+2. Create an isolated temporary local clone with no checkout
+3. Apply the safe Git config and attributes that affect file content
+4. Prepare only the paths the selected commits touch
+5. Fall back to a full checkout when repository merge/filter drivers need it
+6. Apply the selected commits, oldest first
+7. Collect content and diffs from the base Git objects and the final index
+8. Remove that request's temporary directory on success, failure or cancel
 ```
 
-계산 중에는 임시 파일이 디스크에 만들어집니다. 정리에 실패하면 앱이 임시 경로를 안내하므로 해당 경로를 사용 중인 프로그램을 종료한 뒤 직접 정리할 수 있습니다.
+Temporary files are written to disk while the calculation runs. If cleanup
+fails the app reports the leftover path so you can close whatever is holding
+it and remove it yourself.
 
-다음 원본 상태는 계산 전후에 유지됩니다.
+**Your repository keeps** its current branch and HEAD, staged, unstaged and
+untracked files, local Git config, and any other registered worktrees.
 
-- 현재 branch와 HEAD
-- staged, unstaged와 untracked 파일
-- 로컬 Git config
-- 다른 Git worktree 등록
+## Limitations
 
-## 현재 지원 범위
-
-- 하나의 조상 흐름으로 정렬할 수 있는 선형 이력
-- 같은 파일을 여러 커밋이 변경한 최종 상태
-- 텍스트 파일 추가·수정·삭제
-- 바이너리 파일 식별
-- 최신 선택 결과 유지와 이전 계산 취소
-
-## 제한 사항
-
-| 항목 | 현재 동작 |
+| Area | Current behaviour |
 |---|---|
-| merge commit 선택 | `Merge commit · unavailable`로 표시하고 합성 대상에서 제외합니다 |
-| 여러 브랜치에 흩어진 커밋 | 하나의 선형 이력 안에서 선택합니다 |
-| 충돌 파일의 부분 결과 | 계산을 실패 상태로 표시하고 필요한 선행 커밋을 안내합니다 |
-| 변경 파일 그룹화 | 폴더 계층과 전체 경로 목록을 제공합니다 |
-| 파일별 커밋 흐름 | 통합 결과 diff를 제공합니다 |
-| 이름 변경 추론 | 이전 경로와 새 경로를 추가·삭제 상태로 표시합니다 |
-| 루트 커밋 비교 | 지원하지 않습니다 |
-| macOS · Linux | Windows 배포본만 제공합니다 |
-| 코드 서명 · 자동 업데이트 | 제공하지 않습니다 |
+| Merge commits | Shown as `Merge commit · unavailable` and excluded from selection |
+| Commits across branches | Selection works inside one linear history |
+| Conflicting files | The calculation fails and names the prerequisite commits to add |
+| Change grouping | Folder tree and full path list only |
+| Per-file commit history | Only the combined result diff is available |
+| Rename detection | Old and new paths appear as a delete and an add |
+| Root commit comparison | Not supported |
+| macOS · Linux | Windows builds only |
+| Code signing · auto update | Not provided |
 
-배포본에는 자동 검증용 환경 경계가 포함되어 있습니다. 기본 실행에서는 비활성 상태이며 `PRETTIFER_E2E=1`을 명시한 테스트 환경에서만 동작합니다.
+The build ships an automation boundary used by the project's own end-to-end
+tests. It stays inactive unless `PRETTIFER_E2E=1` is set explicitly.
 
-## 문제 해결
+## Troubleshooting
 
-### Git 실행 파일을 찾을 수 없음
+<details>
+<summary><b>Git executable not found</b></summary>
 
 ```powershell
 git --version
 ```
 
-Git `2.30+`가 설치되어 있고 현재 사용자의 `PATH`에서 실행되는지 확인한 뒤 앱을 다시 실행합니다.
+Confirm Git `2.30+` is installed and resolvable from the current user's `PATH`,
+then restart the app.
 
-### 의도한 범위보다 커밋이 많음
+</details>
 
-Base 브랜치를 확인합니다. 두 브랜치의 공통 조상과 표시될 커밋은 다음 명령으로 확인할 수 있습니다.
+<details>
+<summary><b>More commits listed than expected</b></summary>
+
+Check the base branch. Inspect the fork point and the resulting range:
 
 ```powershell
 git merge-base <base> <working>
 git log --oneline --first-parent <base>..<working>
+git rev-parse --abbrev-ref <working>@{upstream}
 ```
 
-### 선택 변경 적용 실패
+The branch reported by the last command is usually the base you want.
 
-표시된 커밋이 선택하지 않은 이전 커밋의 파일 생성이나 변경에 의존할 수 있습니다. 안내된 선행 커밋을 함께 선택하고 다시 실행합니다.
+</details>
 
-### 저장소 잠금·권한·저장 공간 오류
+<details>
+<summary><b>A selected change could not be applied</b></summary>
 
-실행 중인 다른 Git 작업을 종료하고 저장소 접근 권한과 사용 가능한 저장 공간을 확인한 뒤 다시 실행합니다.
+The commit likely depends on a file created or changed by an earlier commit you
+did not select. Add the prerequisite commits the message names and run again.
 
-### 계산 또는 정리가 오래 걸림
+</details>
 
-`Cancel`로 계산을 중단할 수 있습니다. 임시 경로 정리 오류가 표시되면 해당 경로를 사용하는 프로그램을 종료한 뒤 정리합니다.
+<details>
+<summary><b>Lock, permission or disk space errors</b></summary>
 
-## 버그 리포트와 기능 요청
+Close other Git operations on the repository, then check access rights and free
+disk space before retrying.
 
-[Issues](../../issues)에서 버그 리포트 또는 기능 요청 양식을 사용해 주세요.
+</details>
 
-버그 리포트에는 Prettifer 버전, Windows 버전, `git --version`, 재현 순서, 화면 오류 문구를 포함하면 도움이 됩니다. 스크린샷과 오류 문구에서 저장소 경로, 브랜치명, 커밋 메시지와 코드를 지워 주세요.
+<details>
+<summary><b>Calculation or cleanup takes too long</b></summary>
 
-## 라이선스
+Use `Cancel` to stop the calculation. If a temporary path cleanup error is
+reported, close the program using that path and remove it.
 
-이 저장소에는 별도 라이선스 파일이 아직 없습니다. 사용과 재배포 조건은 저장소 소유자에게 확인해 주세요.
+</details>
+
+## Report a bug or request a feature
+
+Open an [issue](https://github.com/jjj5306/prettifer-release/issues/new/choose)
+using one of the forms.
+
+A bug report is much easier to act on with the Prettifer version, the Windows
+version, `git --version` output, the steps you took (which Base and Working you
+chose, how many commits you selected), and the on-screen error text.
+
+> [!CAUTION]
+> Remove repository paths, branch names, commit messages and source code from
+> screenshots and error text before posting. This tracker is public.
+
+## License
+
+This repository does not carry a license file yet. Ask the repository owner
+about use and redistribution terms.
