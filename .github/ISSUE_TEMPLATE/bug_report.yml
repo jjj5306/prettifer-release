@@ -1,0 +1,66 @@
+name: 버그 리포트
+description: 동작하지 않거나 예상과 다른 결과를 보고합니다
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        보고 전에 **저장소 경로, 브랜치명, 커밋 메시지와 코드**가 스크린샷이나
+        오류 문구에 담기지 않았는지 확인해 주세요.
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: 무엇이 잘못되었나요
+      description: 한두 문장으로 요약해 주세요
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: 재현 순서
+      description: Base와 Working 브랜치를 어떻게 골랐는지, 커밋을 몇 개 선택했는지 포함해 주세요
+      placeholder: |
+        1. Open Repository로 저장소를 열었습니다
+        2. Base를 main, Working을 feature/x로 두고 Load Commit Range를 실행했습니다
+        3. 커밋 3개를 선택하고 Build Selected Result를 눌렀습니다
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: 기대한 동작과 실제 동작
+    validations:
+      required: true
+
+  - type: textarea
+    id: error
+    attributes:
+      label: 화면에 표시된 오류 문구
+      description: 있는 그대로 붙여넣어 주세요
+      render: text
+
+  - type: input
+    id: app-version
+    attributes:
+      label: Prettifer 버전
+      placeholder: "0.1.0"
+    validations:
+      required: true
+
+  - type: input
+    id: environment
+    attributes:
+      label: Windows 버전과 git --version 결과
+      placeholder: "Windows 11 23H2 / git version 2.45.1"
+    validations:
+      required: true
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: 그 밖에 도움이 될 정보
+      description: 스크린샷, 저장소 규모, 선택한 커밋의 특징 등
