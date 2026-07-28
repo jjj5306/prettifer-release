@@ -202,5 +202,18 @@ git rev-parse --abbrev-ref <working>@{upstream}
 
 ## 라이선스
 
-이 저장소에는 별도 라이선스 파일이 아직 없습니다. 사용과 재배포 조건은 저장소
-소유자에게 확인해 주세요.
+[Apache License 2.0](LICENSE) + [Commons Clause](https://commonsclause.com/) 조건.
+
+| | |
+|---|---|
+| ✅ | 개인이든 회사 업무든 무료로 사용 |
+| ✅ | 소스 열람·수정·재배포 |
+| ✅ | 포크해서 Pull Request 기여 |
+| ❌ | 판매, 또는 이 소프트웨어의 기능에서 가치가 나오는 제품·서비스로 대가를 받는 행위 |
+
+Commons Clause는 **판매 권리만** 제거합니다. 특허 허여와 기여 조항을 포함한 Apache
+2.0의 나머지 권리는 그대로 유지됩니다.
+
+상업적 재판매를 제한하므로 Prettifer는 OSI 공인 오픈소스가 아니라
+**source-available**입니다. "오픈소스"로 표현하지 말아 주세요. 서드파티 라이선스는
+[NOTICE](NOTICE)를 참고하세요.

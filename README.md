@@ -204,5 +204,19 @@ chose, how many commits you selected), and the on-screen error text.
 
 ## License
 
-This repository does not carry a license file yet. Ask the repository owner
-about use and redistribution terms.
+[Apache License 2.0](LICENSE) with the
+[Commons Clause](https://commonsclause.com/) condition.
+
+| | |
+|---|---|
+| ✅ | Use it for free, personally or inside a company |
+| ✅ | Read, modify and redistribute the source |
+| ✅ | Fork it and send a pull request |
+| ❌ | Sell it, or charge for a product or service whose value comes substantially from it |
+
+The Commons Clause removes only the right to **Sell**. Everything else Apache 2.0
+grants stays, including the patent grant and the contribution terms.
+
+Because commercial resale is restricted, Prettifer is **source-available** rather
+than an OSI-approved open source project — please do not call it "open source".
+See [NOTICE](NOTICE) for third-party licenses.
