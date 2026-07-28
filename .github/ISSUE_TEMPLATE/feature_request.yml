@@ -1,0 +1,32 @@
+name: 기능 요청
+description: 필요한 기능이나 개선을 제안합니다
+title: "[Feature] "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: 지금 어떤 작업을 하려다 막혔나요
+      description: 필요한 상황과 문제를 적어 주세요
+    validations:
+      required: true
+
+  - type: textarea
+    id: workaround
+    attributes:
+      label: 지금은 어떻게 우회하고 있나요
+      description: 우회 방법이 없다면 "없음"이라고 적어 주세요
+    validations:
+      required: true
+
+  - type: textarea
+    id: outcome
+    attributes:
+      label: 그 기능이 있으면 무엇이 달라지나요
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 함께 검토할 조건이나 제약
