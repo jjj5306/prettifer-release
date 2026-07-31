@@ -58,7 +58,8 @@ Get-FileHash .\prettifer-win32-x64-<version>.zip -Algorithm SHA256
 
 ## Usage
 
-1. **Open Repository** — pick the local Git repository you want to review.
+1. **Open Repository** — pick the local Git repository you want to review. You
+   can also start with it open: `prettifer.exe C:\work\repo`.
 2. **Choose the comparison range** — set `Base branch` and `Working branch`,
    then run `Load Commit Range`.
 3. **Pick commits** — tick the commits to combine. Clicking a card body
@@ -81,12 +82,15 @@ Commit History runs oldest to newest, left to right.
 |---|---|
 | Non-contiguous selection | Pick several commits that are not next to each other |
 | Combined result | Applies only the selected commits, oldest first |
+| Merge commits | Pick a merge commit and choose which parent it is compared against |
+| Partial results | A file that cannot be applied is marked as a problem; every other file stays reviewable |
 | Tree / List view | Browse changed files as a folder tree or as full paths |
 | Folder collapsing | Collapse and expand folders; single-child paths are joined into one row |
 | Side-by-side diff | Base on the left, selected result on the right |
 | Added files | New files show their whole content as added, with no empty base pane |
 | Resizable panes | Drag the pane and in-diff dividers, or use arrow keys, Home and End |
 | Binary files | Detected and reported instead of being rendered as text |
+| Open from the command line | `prettifer.exe <repository path>` starts with that repository open |
 | Accessibility | Keyboard operation, visible focus, 200% zoom and high contrast |
 
 <details>
@@ -123,9 +127,8 @@ untracked files, local Git config, and any other registered worktrees.
 
 | Area | Current behaviour |
 |---|---|
-| Merge commits | Shown as `Merge commit · unavailable` and excluded from selection |
 | Commits across branches | Selection works inside one linear history |
-| Conflicting files | The calculation fails and names the prerequisite commits to add |
+| Conflicting files | Marked as problems and left at the comparison base, so the combined diff never contains conflict markers. Add the prerequisite commits to resolve them |
 | Change grouping | Folder tree and full path list only |
 | Per-file commit history | Only the combined result diff is available |
 | Rename detection | Old and new paths appear as a delete and an add |
@@ -133,8 +136,9 @@ untracked files, local Git config, and any other registered worktrees.
 | macOS · Linux | Windows builds only |
 | Code signing · auto update | Not provided |
 
-The build ships an automation boundary used by the project's own end-to-end
-tests. It stays inactive unless `PRETTIFER_E2E=1` is set explicitly.
+The shipped build contains no test or automation hooks. The project's own
+end-to-end tests run against a separate entry point that is removed when the
+release is packaged.
 
 ## Troubleshooting
 
